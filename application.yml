@@ -1,0 +1,28 @@
+#server:
+#  port: 8082
+  
+
+spring:
+  application:
+    name: Gateway
+  cloud:
+    gateway:
+      routes:
+      - id: "backend"
+        predicates:
+        - Path=/backend/**
+        uri: lb://BACKEND
+        filters:
+        - StripPrefix=1
+      - id: "frontend"
+        predicates:
+        - Path=/frontend/**
+        uri: lb://FRONTEND
+        filters:
+        - StripPrefix=1
+  profiles:
+  - gateway
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
